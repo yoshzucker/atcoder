@@ -1,0 +1,6 @@
+(let* ((n (read))
+       (k (read))
+       (ai (loop repeat n collect (read))))
+  (setf ai (remove-if #'(lambda (x) (plusp (mod x k))) ai))
+  (setf ai (mapcar #'(lambda (x) (/ x k)) ai))
+  (format t "~{~a ~}" ai))
