@@ -1,10 +1,6 @@
-(let ((n (read))
-      (l (read))
-      (r (read)))
-  (loop for i from 1 to n
-        collect (if (<= l i r)
-                    (- r (- i l))
-                    i)
-          into lst
-        finally (format t "~{~a ~}" lst)))
-    
+(let* ((n (read))
+       (l (read))
+       (r (read))
+       (ai (loop for i from 1 to n collect i)))
+  (setf (subseq ai (1- l) r) (reverse (subseq ai (1- l) r)))
+  (format t "~{~a ~}" ai))
