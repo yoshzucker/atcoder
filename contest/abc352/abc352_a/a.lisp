@@ -1,0 +1,5 @@
+(let ((n (read))
+      (x (read))
+      (y (read))
+      (z (read)))
+  (format t "~a" (if (< (min x y) z (max x y)) "Yes" "No")))
