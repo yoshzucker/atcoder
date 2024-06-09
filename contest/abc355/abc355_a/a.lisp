@@ -1,0 +1,5 @@
+(let ((a (read))
+      (b (read))
+      (lst (list 1 2 3)))
+  (setf lst (remove-if #'(lambda (x) (or (= x a) (= x b))) lst))
+  (format t "~a" (if (= (length lst) 1) (first lst) -1)))
