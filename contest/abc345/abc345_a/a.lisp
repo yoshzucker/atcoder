@@ -1,6 +1,6 @@
 (let ((s (read-line)))
-  (format t "~a" (if (and (string= (subseq s 0 1) "<")
+  (format t "~a" (if (and (char= (elt s 0) #\<)
                           (= (count #\< s) 1)
-                          (string= (subseq s (1- (length s))) ">")
+                          (char= (elt s (1- (length s))) #\>)
                           (= (count #\> s) 1))
                      "Yes" "No")))
