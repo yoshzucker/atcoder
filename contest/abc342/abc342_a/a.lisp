@@ -1,0 +1,6 @@
+(let* ((s (read-line))
+       (c (remove-duplicates s))
+       (item (if (< (count (elt c 0) s) (count (elt c 1) s))
+                 (elt c 0)
+                 (elt c 1))))
+  (print (1+ (position item s))))
