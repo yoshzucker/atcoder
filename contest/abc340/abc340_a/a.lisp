@@ -1,0 +1,5 @@
+(let ((a (read))
+      (b (read))
+      (d (read)))
+  (loop for i = a then (+ i d) while (<= i b)
+        do (format t "~a " i)))
