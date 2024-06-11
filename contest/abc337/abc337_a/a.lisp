@@ -1,0 +1,7 @@
+(let* ((n (read))
+       (xy (loop repeat n collect (list (read) (read))))
+       (x (reduce #'+ (mapcar #'first xy)))
+       (y (reduce #'+ (mapcar #'second xy))))
+  (format t "~a" (cond ((= x y) "Draw")
+                       ((< x y) "Aoki")
+                       (t "Takahashi"))))
