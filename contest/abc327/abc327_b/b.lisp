@@ -1,0 +1,5 @@
+(let ((b (read)))
+  (loop for i from 1 until (< b (expt i i))
+        when (= b (expt i i))
+          return (print i)
+        finally (print -1)))
