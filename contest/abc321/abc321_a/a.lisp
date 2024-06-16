@@ -1,0 +1,6 @@
+(let ((n (read-line)))
+  (loop for x across (subseq n 1) with p = (digit-char-p (elt n 0))
+        do (setf x (digit-char-p x))
+           (when (<= p x) (return (princ "No")))
+           (setf p x)
+        finally (princ "Yes")))
