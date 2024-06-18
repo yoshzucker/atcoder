@@ -1,0 +1,5 @@
+(let ((a (read))
+      (m (read))
+      (l (read))
+      (r (read)))
+  (print (- (floor (- r a) m) (ceiling (- l a) m) -1)))
