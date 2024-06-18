@@ -1,0 +1,12 @@
+(let ((k (read))
+      (g (read))
+      (m (read)))
+  (loop repeat k with glass = 0 and mug = 0
+        do (cond ((= glass g) (setf glass 0))
+                 ((= mug 0) (setf mug m))
+                 (t (if (<= (- g glass) mug)
+                        (setf mug (- mug (- g glass))
+                              glass g)
+                        (setf glass (+ glass mug)
+                              mug 0))))
+        finally (format t "~a ~a" glass mug)))
