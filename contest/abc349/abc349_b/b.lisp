@@ -1,0 +1,8 @@
+(let ((s (coerce (read-line) 'list)))
+  (loop for i from 1 to (length s)
+        with cj = (remove-duplicates s)
+        with cc = (map 'list #'(lambda (c) (count c s)) cj)
+        do (let ((kinds (count i cc)))
+             (unless (or (zerop kinds) (= kinds 2))
+               (return (princ "No"))))
+        finally (princ "Yes")))
