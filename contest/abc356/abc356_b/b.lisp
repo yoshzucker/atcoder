@@ -1,0 +1,6 @@
+(let* ((n (read))
+       (m (read))
+       (ai (loop repeat m collect (read)))
+       (xij (loop repeat n collect (loop repeat m collect (read))))
+       (xj (apply #'mapcar #'+ xij)))
+  (format t "~:[No~;Yes~]" (every #'<= ai xj)))
