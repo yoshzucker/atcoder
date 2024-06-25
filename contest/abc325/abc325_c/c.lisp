@@ -1,21 +1,21 @@
 (let* ((h (read))
        (w (read))
-       (swh (cons (make-string (+ w 2) :initial-element #\.)
-                  (loop repeat h
-                        collect (concatenate 'string "." (read-line) ".")))))
-  (loop for i from 1 to h with cnt = 0
-        for prev-sw = (nth (1- i) swh) 
-        and this-sw = (nth i swh) 
-        do (loop for j from 1 below (1- (length this-sw) ) 
-                 do (let ((topl (elt prev-sw (1- j)))
-                          (topm (elt prev-sw j))
-                          (left (elt this-sw (1- j)))
-                          (this (elt this-sw j)))
-                      (and (char= this #\#) (incf cnt))
-                      (decf cnt (max 0 (1- (count t (list (char= topl #\#) 
-                                                          (char= topm #\#)
-                                                          (char= left #\#)
-                                                          (char= this #\#))))))))
-           (format t "~a~%" cnt)
-        finally (print cnt))
-  )
+       (swh (make-array (list h w)
+                        :initial-contents
+                        (loop repeat h collect (read-line)))))
+  (loop for i below h with stack and visited do
+    (loop for j below w do
+      (when (and (char= (aref swh i j) #\#)
+                 (not (find (list i j) visited :test #'equal))) 
+        (push (list i j) stack)
+        (push (list i j) visited)
+        (loop while stack for p = (pop stack)
+              for f = (first p) and s = (second p) do
+                (loop for l from (max 0 (1- f)) to (min (1+ f) (1- h)) do
+                  (loop for m from (max 0 (1- s)) to (min (1+ s) (1- w)) do
+                    (when (and (char= (aref swh l m) #\#)
+                               (not (find (list l m) visited :test #'equal)))
+                      (push (list l m) visited)
+                      (push (list l m) stack)))))))
+        finally (return visited)))
+
