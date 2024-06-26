@@ -1,0 +1,25 @@
+(let* ((h (read))
+       (w (read))
+       (swh (make-array (list h w)
+                        :initial-contents
+                        (loop repeat h collect (read-line))))
+       (visited (make-array (list h w) :initial-element nil)))
+  (labels ((around (x y)
+             (loop for i from (max 0 (1- x)) to (min (1+ x) (1- h))
+                   do (loop for j from (max 0 (1- y)) to (min (1+ y) (1- w))
+                            when (char= (aref swh i j) #\#)
+                              collect (list i j))))
+           (dfs (x y)
+             (or (setf (aref visited x y) t)
+                 (loop for (i j) in (around x y)
+                       do (unless (aref visited i j) (dfs i j))))))
+    (loop for i below h
+          append (loop for j below w
+                       when (let ((a (char= (aref swh i j) #\#))
+                                  (b (not (aref visited i j))))
+                              (format t "(~a ~a) ~a ~a~%" i j a b)
+                              (and a b (dfs i j)))
+                         collect (list i j))
+            into it
+          finally (format t "~a~%" visited)
+                  (print it))))
