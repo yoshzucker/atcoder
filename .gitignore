@@ -1,2 +1,3 @@
-*.in
-*.out
+# untrack default testcases, track adding testcases.
+*-*.in
+*-*.out
