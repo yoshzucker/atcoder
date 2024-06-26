@@ -3,20 +3,22 @@
        (swh (make-array (list h w)
                         :initial-contents
                         (loop repeat h collect (read-line)))))
-  (loop for i below h with stack and visited and connected-component = 0 do
-    (loop for j below w do
-      (when (and (char= (aref swh i j) #\#)
-                 (not (find (list i j) visited :test #'equal))) 
-        (push (list i j) stack)
-        (push (list i j) visited)
-        (incf connected-component)
-        (loop while stack for p = (pop stack)
-              for f = (first p) and s = (second p) do
-                (loop for l from (max 0 (1- f)) to (min (1+ f) (1- h)) do
-                  (loop for m from (max 0 (1- s)) to (min (1+ s) (1- w)) do
-                    (when (and (char= (aref swh l m) #\#)
-                               (not (find (list l m) visited :test #'equal)))
-                      (push (list l m) visited)
-                      (push (list l m) stack)))))))
+  (loop for n below (* h w)
+        for i = (floor n w) and j = (mod n w)
+        with stack
+        and visited = (make-array (list h w) :initial-element nil)
+        and connected-component = 0
+        do (when (and (char= (aref swh i j) #\#)
+                      (not (aref visited i j))) 
+             (push (list i j) stack)
+             (setf (aref visited i j) t)
+             (incf connected-component)
+             (loop while stack for p = (pop stack)
+                   for f = (first p) and s = (second p)
+                   do (loop for l from (max 0 (1- f)) to (min (1+ f) (1- h))
+                            do (loop for m from (max 0 (1- s)) to (min (1+ s) (1- w))
+                                     do (when (and (char= (aref swh l m) #\#)
+                                                   (not (aref visited l m)))
+                                          (push (list l m) stack)
+                                          (setf (aref visited l m) t))))))
         finally (print connected-component)))
-
