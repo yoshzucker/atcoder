@@ -1,3 +1,16 @@
+#-swank
+(unless (member :child-sbcl *features*)
+  (quit
+   :recklessly-p t
+   :unix-status
+   (process-exit-code
+    (run-program *runtime-pathname*
+                 `("--control-stack-size" "256MB"
+                   "--noinform" "--disable-ldb" "--lose-on-corruption" "--end-runtime-options"
+                   "--eval" "(push :child-sbcl *features*)"
+                   "--script" ,(namestring *load-pathname*))
+                 :output t :error t :input t))))
+
 (let* ((h (read))
        (w (read))
        (swh (make-array (list h w)
@@ -6,20 +19,18 @@
        (visited (make-array (list h w) :initial-element nil)))
   (labels ((around (x y)
              (loop for i from (max 0 (1- x)) to (min (1+ x) (1- h))
-                   do (loop for j from (max 0 (1- y)) to (min (1+ y) (1- w))
-                            when (char= (aref swh i j) #\#)
-                              collect (list i j))))
+                   append (loop for j from (max 0 (1- y)) to (min (1+ y) (1- w))
+                                when (char= (aref swh i j) #\#)
+                                  collect (list i j))))
            (dfs (x y)
-             (or (setf (aref visited x y) t)
-                 (loop for (i j) in (around x y)
-                       do (unless (aref visited i j) (dfs i j))))))
+             (setf (aref visited x y) t)
+             (loop for (i j) in (around x y)
+                   do (unless (aref visited i j) (dfs i j)))))
     (loop for i below h
-          append (loop for j below w
-                       when (let ((a (char= (aref swh i j) #\#))
-                                  (b (not (aref visited i j))))
-                              (format t "(~a ~a) ~a ~a~%" i j a b)
-                              (and a b (dfs i j)))
-                         collect (list i j))
+          sum (loop for j below w
+                    when (and (char= (aref swh i j) #\#)
+                              (not (aref visited i j)))
+                      do (dfs i j) and count it)
             into it
-          finally (format t "~a~%" visited)
-                  (print it))))
+          finally (print it))))
+
