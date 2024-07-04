@@ -1,0 +1,7 @@
+(let* ((n (read))
+       (k (read))
+       (ak (loop repeat k collect (read)))
+       (socks (remove-if #'(lambda (x) (find x ak))
+                         (loop for i from 1 to n append (list i i))
+                         :count 1)))
+  socks)
