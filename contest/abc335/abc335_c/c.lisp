@@ -1,0 +1,11 @@
+(let* ((n (read))
+       (q (read))
+       (qq (loop repeat q collect (list (read) (read)))))
+  (loop for (com cp) in qq
+        with loong = (loop for i from 1 to n collect (list i 0))
+        with dir = '((R 1 0) (L -1 0) (U 0 1) (D 0 -1))
+        do (if (= com 1)
+               (push (list (+ (elt (assoc cp dir) 1) (elt (first loong) 0))
+                           (+ (elt (assoc cp dir) 2) (elt (first loong) 1)))
+                     loong)
+               (format t "~{~a ~a~}~%" (elt loong (1- cp))))))
