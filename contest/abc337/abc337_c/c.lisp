@@ -5,4 +5,3 @@
         do (setf (elt nextn (max 0 prev)) next))
   (loop repeat n for next = (elt nextn 0) then (elt nextn next)
         do (format t "~a " next)))
-  
