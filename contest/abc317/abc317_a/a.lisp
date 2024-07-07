@@ -1,0 +1,6 @@
+(let* ((n (read))
+       (h (read))
+       (x (read))
+       (pn (loop repeat n collect (read))))
+  (loop for i from 1 for p in pn until (<= x (+ h p))
+        finally (print i)))
