@@ -5,6 +5,12 @@
        (x (read)))
   (loop for i below n for cac in cacn
         when (find x (cdr cac))
-          collect (cons i (car cac)) into it
-        finally (print it))
-  )
+          count it into cnt
+          and minimize (length (cdr cac)) into min
+          and collect (list (1+ i) (length (cdr cac))) into lst
+        finally (let ((winner (remove nil (mapcar #'(lambda (x)
+                                                      (if (= min (second x))
+                                                          (first x)))
+                                                  lst))))
+                  (format t "~a~%" (length winner))
+                  (format t "~{~a ~}~%" winner))))
