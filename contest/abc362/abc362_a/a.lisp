@@ -1,0 +1,10 @@
+(let ((r (read))
+      (g (read))
+      (b (read))
+      (c (read-line)))
+  (cond ((string= c "Red")
+         (print (min g b)))
+        ((string= c "Green")
+         (print (min r b)))
+        (t
+         (print (min r g)))))
