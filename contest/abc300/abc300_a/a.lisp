@@ -1,0 +1,5 @@
+(let* ((n (read))
+       (a (read))
+       (b (read))
+       (cn (loop repeat n collect (read))))
+  (print (1+ (position (+ a b) cn))))
