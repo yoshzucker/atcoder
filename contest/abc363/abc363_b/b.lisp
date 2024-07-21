@@ -1,0 +1,7 @@
+(let* ((n (read))
+       (u (read))
+       (p (read))
+       (ln (sort (loop repeat n collect (- (read) u)) #'<)))
+  (loop for i from 0 until (<= p (count-if #'(lambda (x) (<= 0 x)) ln))
+        do (setf ln (mapcar #'(lambda (x) (1+ x)) ln))
+        finally (print i)))
