@@ -1,0 +1,5 @@
+(let ((s (read-line)))
+  (loop for i below (length s)
+        when (oddp i)
+          do (rotatef (elt s (1- i)) (elt s i))
+        finally (princ s)))
