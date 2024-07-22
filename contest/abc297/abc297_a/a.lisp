@@ -1,0 +1,5 @@
+(let* ((n (read))
+       (d (read))
+       (tn (loop repeat n collect (read)))
+       (pos (position-if #'(lambda (x) (<= x d)) (mapcar #'- (rest tn) tn))))
+  (print (if pos (elt tn (1+ pos)) -1)))
