@@ -1,0 +1,10 @@
+(let* ((n (read))
+       (p (read))
+       (q (read))
+       (r (read))
+       (s (read))
+       (an (loop repeat n collect (read))))
+  (loop for i below n
+        when (<= (1- p) i (1- q))
+          do (rotatef (elt an i) (elt an (+ (- r p) i)))
+        finally (format t "~{~a ~}" an)))
