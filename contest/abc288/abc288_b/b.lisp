@@ -1,0 +1,5 @@
+(let* ((n (read))
+       (k (read))
+       (sn (loop repeat n collect (read-line)))
+       (sk (subseq sn 0 k)))
+  (format t "~{~a~%~}" (sort sk #'string<)))
