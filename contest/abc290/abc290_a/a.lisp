@@ -1,0 +1,5 @@
+(let* ((n (read))
+       (m (read))
+       (an (loop repeat n collect (read)))
+       (bn (loop repeat m collect (read))))
+  (print (reduce #'+ (mapcar #'(lambda (x) (elt an (1- x))) bn))))
