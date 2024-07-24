@@ -1,0 +1,1 @@
+(print (expt (read) (read)))
