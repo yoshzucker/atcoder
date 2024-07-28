@@ -1,0 +1,7 @@
+(let* ((a (read))
+       (b (read))
+       (c (read))
+       (d (read))
+       (e (read))
+       (f (read)))
+  (print (mod (- (* a b c) (* d e f)) 998244353)))
