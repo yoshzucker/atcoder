@@ -1,0 +1,1 @@
+(print (logior (read) (read)))
