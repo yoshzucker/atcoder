@@ -1,0 +1,5 @@
+(let ((lst (sort (loop repeat 5 collect (read)) #'<)))
+  (format t "~:[No~;Yes~]" (or (and (apply #'= (subseq lst 0 3))
+                                    (apply #'= (subseq lst 3)))
+                               (and (apply #'= (subseq lst 0 2))
+                                    (apply #'= (subseq lst 2))))))
