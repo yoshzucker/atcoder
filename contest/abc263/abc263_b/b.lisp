@@ -1,0 +1,8 @@
+(let* ((n (read))
+       (pn- (coerce (loop repeat (1- n) collect (read)) 'vector)))
+  (loop with parent = (- n 2)
+        for child = (1- (elt pn- parent))
+        do (format t "~a ~a~%" parent child)
+        do (setf parent (1- child))
+        until (= parent 0)
+        count t))
