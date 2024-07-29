@@ -1,0 +1,6 @@
+(let ((x (read))
+      (y (read))
+      (n (read)))
+  (print (if (< (* 3 x) y)
+             (* n x)
+             (+ (* (floor n 3) y) (* (mod n 3) x)))))
