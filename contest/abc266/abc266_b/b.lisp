@@ -1,2 +1,2 @@
 (let ((n (read)))
-  (loop with x while ))
+  (print (mod n 998244353)))
