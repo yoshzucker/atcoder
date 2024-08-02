@@ -1,0 +1,11 @@
+(let* ((n (read))
+       (x (read))
+       (an (loop repeat (1- n) collect (read))))
+  (loop for scr to 100
+        for all = (cons scr an)
+        for lst = (remove (apply #'min all)
+                          (remove (apply #'max all) all :count 1)
+                          :count 1)
+        when (<= x (reduce #'+ lst))
+          return (print scr)
+        finally (print -1)))
