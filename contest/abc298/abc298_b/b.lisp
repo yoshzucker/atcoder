@@ -1,27 +1,23 @@
-(defun 2d-shift (2d-array &key (h-step 1) (w-step 0))
-  (destructuring-bind (h w) (array-dimensions 2d-array)
-    (loop for i below h with array = (make-array (list h w))
-          do (loop for j below w
-                   do (setf (aref array i j)
-                            (aref 2d-array
-                                  (mod (+ i h-step) h)
-                                  (mod (+ j w-step) w))))
-          finally (return array))))
-
-(defun 2d-rotate (2d-array)
-  (destructuring-bind (h w) (array-dimensions 2d-array)
-    (loop for i below h
-          do (loop for j below w
-                   do (rotatef (aref 2d-array i j)
-                               (aref 2d-array (- h j 1) i)))
-          finally (return 2d-array))))
-
 (let* ((n (read))
-       (ann (make-array (list n n)
-                        :initial-contents
-                        (loop repeat n collect (loop repeat n collect (read)))))
-       (bnn (make-array (list n n)
-                        :initial-contents
-                        (loop repeat n collect (loop repeat n collect (read))))))
-  (2d-rotate ann)
-  )
+       (a (make-array (list n n)
+                      :initial-contents
+                      (loop repeat n collect (loop repeat n collect (read)))))
+       (b (make-array (list n n)
+                      :initial-contents
+                      (loop repeat n collect (loop repeat n collect (read))))))
+  (flet ((rotatef-a ()
+           (loop for i below n
+                 do (loop for j below n
+                          do (rotatef (aref a (1- i) (1- j))
+                                      (aref a (- n j -2) (1- i))))))
+         (test (a)
+           (loop for i below n
+                 do (loop for j below n
+                          always (if (= (aref a i j) 1)
+                                     (= (aref a i j) (aref b i j))
+                                     t)))))
+    (loop repeat 4
+          do (rotatef-a)
+          when (test a)
+            return (princ "Yes")
+          finally (princ "No"))))
