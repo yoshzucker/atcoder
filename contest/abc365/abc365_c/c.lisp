@@ -1,16 +1,21 @@
-(defun binary-search (sequence target fn)
-  (loop with l = 0 and r = (1- (length sequence))
+(defun binary-search (l r test-fn)
+  (loop initially (when (funcall test-fn r)
+                    (return r))
         for m = (floor (+ l r) 2)
-        always (<= l r)
-        do (let ((mvalue (funcall fn m)))
-             (cond ((< target mvalue)
-                    (setf r (1- m)))
-                   ((< mvalue target)
-                    (setf l (1+ m)))
-                   (t
-                    (return t))))))
+        while (< l m r)
+        do (if (funcall test-fn m)
+               (setf l m)
+               (setf r m))
+        finally (return m)))
 
 (let* ((n (read))
        (m (read))
-       (an (coerce (sort (loop repeat n collect (read)) #'<) 'vector)))
-  (binary-search an m #'(lambda ())
+       (an (coerce (sort (loop repeat n collect (read)) #'<) 'vector))
+       (infinite 1001001001)
+       (result (binary-search 0
+                              infinite
+                              #'(lambda (x)
+                                  (loop for a across an sum (min x a) into it
+                                        finally (return (<= it m)))))))
+  (princ (if (= result infinite) "infinite" result)))
+  
