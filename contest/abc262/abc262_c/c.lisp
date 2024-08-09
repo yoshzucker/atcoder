@@ -1,21 +1,14 @@
-(defun permutation (n r)
-  (loop for i downfrom n repeat r
-        for v = i then (* v i)
-        finally (return v)))
-
-(defun factorial (n)
-  (loop for i downfrom n to 1
-        for v = i then (* v i)
-        finally (return v)))
-
 (defun combination (n r)
-  (/ (permutation n r) (factorial r)))
+  (loop for i downfrom n for j downfrom r repeat r
+        for vn = i then (* vn i)
+        for vr = j then (* vr j)
+        finally (return (/ vn vr))))
 
 (let* ((n (read))
-       (an (loop repeat n collect (1- (read)))))
-  (+ (permutation (loop for i below n
-                        count (= (elt an i) i))
-                  2)
-     (loop for i below n
-           count (= (- (length an) (elt an i))
-                    (- (length an) i 1)))))
+       (an (coerce (loop repeat n collect (read)) 'vector))
+       (count-equal (loop for a across an for i from 1
+                          count (= a i)))
+       (count-cross (loop for a across an for i from 1
+                          count (and (/= a i)
+                                     (= (elt an (1- a)) i)))))
+  (print (+ (combination count-equal 2) (/ count-cross 2))))
