@@ -1,0 +1,7 @@
+(let* ((n (read))
+       (an (sort (loop repeat n collect (read)) #'>))
+       (odd (remove-if-not #'oddp an))
+       (even (remove-if-not #'evenp an))
+       (osum (if (< 1 (length odd)) (+ (first odd) (second odd)) -1))
+       (esum (if (< 1 (length even)) (+ (first even) (second even)) -1)))
+  (print (max osum esum)))
