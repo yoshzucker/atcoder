@@ -1,0 +1,5 @@
+(let* ((n (read))
+       (u (read))
+       (a (read))
+       (r (- n u a)))
+  (format t "~:[No~;Yes~]" (< (+ (min u a) r) (max u a))))
