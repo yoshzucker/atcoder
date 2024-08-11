@@ -5,21 +5,35 @@
                    do (format t "~a" (aref 2d-array i j)))
              (format t "~%"))))
 
+(defun transpose (2d-array)
+  (destructuring-bind (h w) (array-dimensions 2d-array)
+    (loop for i below h with array = (make-array (list w h))
+          do (loop for j below w
+                   do (setf (aref array j i) (aref 2d-array i j)))
+          finally (return array))))
+
+(defun sequences->2d-array (sequences &key (initial-element nil))
+  (let* ((h (length sequences))
+         (w (apply #'max (mapcar #'length sequences)))
+         (array (make-array (sequences h w) :initial-element initial-element)))
+    (loop for seq in sequences for i from 0
+          do (loop for j from 0 below (length seq)
+                   do (setf (aref array i j) (elt seq j)))
+          finally (return array))))
+
+(defun 2d-array->list (2d-array)
+  (destructuring-bind (h w) (array-dimensions 2d-array)
+    (loop for i below h
+          collect (loop for j below w
+                        collect (aref 2d-array i j)))))
+
 (let* ((n (read))
        (sn (loop repeat n collect (read-line)))
-       (m (loop for s in sn maximize (length s)))
-       (un (make-array (list m n) :initial-element nil)))
-  (loop for j from 0 below m
-        do (loop for i from (1- n) downto 0
-                 for s = (elt sn i)
-                 do (setf (aref un j (- n i 1))
-                          (if (<= (length s) j)
-                              #\*
-                              (elt s j)))))
-  (loop for j from 0 below m
-        do (loop for i from (1- n) downto 0
-                 until (char/= (aref un j i) #\*)
-                 when (char= (aref un j i) #\*)
-                   do (setf (aref un j i) #\Space)))
-  (prina un))
+       (un (transpose (sequences->2d-array sn :initial-element #\*))))
+  (setf un (mapcar #'reverse (2d-array->list un)))
+  (loop for u in un
+        do (loop for j downfrom (1- (length u)) to 0
+                 while (char= (elt u j) #\*)
+                 do (setf (elt u j) #\Space)))
+  (prina (sequences->2d-array un)))
   
