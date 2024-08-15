@@ -1,0 +1,11 @@
+(let* ((h (read))
+       (w (read))
+       (sh (loop repeat h collect (read-line))))
+  (loop for s in sh
+        do (loop for i from 0 below (1- w)
+                 for a = (elt s i)
+                 and b = (elt s (1+ i)) 
+                 when (char= a b #\T)
+                   do (setf (elt s i) #\P)
+                      (setf (elt s (1+ i)) #\C))
+        finally (format t "~{~a~%~}" sh)))
