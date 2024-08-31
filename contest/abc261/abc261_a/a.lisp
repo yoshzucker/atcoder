@@ -1,0 +1,5 @@
+(let ((l1 (read))
+      (r1 (read))
+      (l2 (read))
+      (r2 (read)))
+  (print (max 0 (- (min r1 r2) (max l1 l2)))))
