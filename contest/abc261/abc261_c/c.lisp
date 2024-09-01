@@ -1,0 +1,7 @@
+(let* ((n (read))
+       (sn (loop repeat n collect (read-line))))
+  (loop for s in sn with hash = (make-hash-table :test #'equal)
+        do (princ s)
+        when (< 1 (incf (gethash s hash 0)))
+          do (format t "(~a)" (1- (gethash s hash)))
+        do (format t "~%")))
