@@ -1,2 +1,7 @@
 (let* ((n (read))
-       (an (sort (loop repeat n collect (1- (read))) #'<))))
+       (an (coerce (sort (loop repeat n collect (1- (read))) #'<) 'vector)))
+  (loop for i from 0 with head = 0 and tail = (1- n) while (< head tail)
+        do (if (= i (elt an head))
+               (incf head)
+               (decf tail 2))
+        finally (print i)))
