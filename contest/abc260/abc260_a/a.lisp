@@ -1,0 +1,5 @@
+(let ((s (read-line)))
+  (cond ((= (count (elt s 0) s) 1) (princ (elt s 0)))
+        ((= (count (elt s 1) s) 1) (princ (elt s 1)))
+        ((= (count (elt s 2) s) 1) (princ (elt s 2)))
+        (t (print -1))))
