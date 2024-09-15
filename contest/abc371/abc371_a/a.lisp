@@ -1,0 +1,25 @@
+(defun split-string (string &rest parser-fns)
+  "split string by spaces. then, apply the elements to functions. if there are more elements than functions, the remaining elements are applied to the last function. if no functions are provided, the elements will be string"
+  (loop with str = string for p = (position #\Space str)
+        for fn = (or (pop parser-fns) fn)
+        collect (funcall (or fn #'identity) (subseq str 0 p))
+        while p
+        do (setf str (subseq str (1+ p)))))
+
+
+(let* ((s (split-string (read-line)))
+       (ab (pop s))
+       (ac (pop s))
+       (bc (pop s)))
+  (cond ((string= ab "<")
+         (if (string= bc "<")
+             (princ "B")
+             (if (string= ac "<")
+                 (princ "C")
+                 (princ "A"))))
+        ((string= ab ">")
+         (if (string= ac "<")
+             (princ "A")
+             (if (string= bc "<")
+                 (princ "C")
+                 (princ "B"))))))
