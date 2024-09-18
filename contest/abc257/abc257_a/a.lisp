@@ -1,0 +1,6 @@
+(let ((n (read))
+      (x (read)))
+  (loop for c from (char-code #\A) to (char-code #\Z)
+        do (loop repeat n do (decf x)
+                 when (zerop x)
+                   return (format t "~a" (code-char c)))))
