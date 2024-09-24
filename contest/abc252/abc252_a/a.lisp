@@ -1,0 +1,1 @@
+(princ (code-char (read)))
