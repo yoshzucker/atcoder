@@ -1,0 +1,6 @@
+(let ((h (read))
+      (w (read))
+      (r (read))
+      (c (read)))
+  (princ (+ (- 2 (if (= 1 r) 1 0) (if (= r h) 1 0))
+            (- 2 (if (= 1 c) 1 0) (if (= c w) 1 0)))))
