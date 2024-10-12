@@ -1,0 +1,7 @@
+(let* ((n (read))
+       (an (loop repeat (1- (* 4 n)) collect (read))))
+  (loop for a in an with hash = (make-hash-table)
+        do (incf (gethash a hash 0))
+        finally (loop for k being the hash-key in hash using (hash-value v)
+                      when (= v 3)
+                        return (print k))))
