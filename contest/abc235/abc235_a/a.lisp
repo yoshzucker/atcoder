@@ -1,0 +1,7 @@
+(let* ((abc (read-line))
+       (a (digit-char-p (elt abc 0)))
+       (b (digit-char-p (elt abc 1)))
+       (c (digit-char-p (elt abc 2))))
+  (flet ((xyz (x y z )
+           (+ (* x 100) (* y 10) z)))
+    (print (+ (xyz a b c) (xyz b c a) (xyz c a b)))))
